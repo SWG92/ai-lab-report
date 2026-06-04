@@ -1,25 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap');
-
-/* 手写风格数学公式 */
-.handwrite-math .katex {
-  font-family: 'Caveat', 'STKaiti', cursive;
-  font-size: 1.25em;
-  font-weight: 600;
-}
-
-.handwrite-math .katex .mathnormal {
-  font-family: 'Caveat', 'STKaiti', cursive;
-}
-
-.handwrite-math .katex .mord {
-  font-family: 'Caveat', 'STKaiti', cursive;
-}
-
-.handwrite-math .katex .mbin,
-.handwrite-math .katex .mrel {
-  font-family: 'Caveat', 'STKaiti', cursive;
-}
-
 /* 独立公式居中加大 */
 .handwrite-math .katex-display {
   margin: 1em 0;
@@ -28,16 +6,15 @@
   border-radius: 8px;
 }
 
-.handwrite-math .katex-display > .katex {
-  font-size: 1.4em;
+.dark .handwrite-math .katex-display {
+  background: oklch(0.2 0.015 270 / 0.5);
 }
 
-/* 手写风格下划线效果 */
-.handwrite-math .katex-display::after {
-  content: '';
-  display: block;
-  margin-top: 4px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.15;
+.handwrite-math .katex-display > .katex {
+  font-size: 1.3em;
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .star { animation: none; opacity: 0.5; }
 }

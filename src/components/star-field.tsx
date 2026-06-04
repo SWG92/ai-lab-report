@@ -27,7 +27,7 @@ export function StarField() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setStars(generateStars(60));
+    setStars(generateStars(35));
     setMounted(true);
   }, []);
 

@@ -12,6 +12,7 @@ import type { GenerateState } from "@/lib/types";
 import { ResultCard } from "./result-card";
 
 const initialState: GenerateState = { success: false };
+const MAX_LENGTH = 2000;
 
 const EXAMPLES = [
   {
@@ -33,6 +34,15 @@ const EXAMPLES = [
     experimentSteps: "1. 配制不同浓度的醋酸溶液\n2. 用pH计测量各溶液的pH值\n3. 计算电离度\n4. 根据公式计算电离常数Ka\n5. 分析实验误差",
   },
 ];
+
+function CharCount({ current, max }: { current: number; max: number }) {
+  const pct = current / max;
+  return (
+    <p className={`text-xs text-right ${pct > 0.9 ? "text-destructive" : "text-muted-foreground/50"}`}>
+      {current}/{max}
+    </p>
+  );
+}
 
 export function InputForm() {
   const [state, formAction, pending] = useActionState(
@@ -65,7 +75,7 @@ export function InputForm() {
             <FlaskConical className="h-5 w-5 text-primary" />
             填写实验信息
           </CardTitle>
-          {hasContent && (
+          {hasContent && !pending && (
             <Button
               type="button"
               variant="ghost"
@@ -88,8 +98,11 @@ export function InputForm() {
                 placeholder="例如：大学物理实验"
                 value={courseName}
                 onChange={(e) => setCourseName(e.target.value)}
+                maxLength={MAX_LENGTH}
+                disabled={pending}
                 required
               />
+              <CharCount current={courseName.length} max={MAX_LENGTH} />
             </div>
 
             <div className="space-y-2">
@@ -100,8 +113,11 @@ export function InputForm() {
                 placeholder="例如：用牛顿环测量透镜曲率半径"
                 value={experimentName}
                 onChange={(e) => setExperimentName(e.target.value)}
+                maxLength={MAX_LENGTH}
+                disabled={pending}
                 required
               />
+              <CharCount current={experimentName.length} max={MAX_LENGTH} />
             </div>
 
             <div className="space-y-2">
@@ -113,8 +129,11 @@ export function InputForm() {
                 rows={5}
                 value={experimentSteps}
                 onChange={(e) => setExperimentSteps(e.target.value)}
+                maxLength={MAX_LENGTH}
+                disabled={pending}
                 required
               />
+              <CharCount current={experimentSteps.length} max={MAX_LENGTH} />
             </div>
 
             <Button

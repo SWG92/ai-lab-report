@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -20,6 +20,13 @@ const SECTIONS: { key: keyof ReportOutput; label: string; icon: React.ElementTyp
 
 export function ResultCard({ data }: { data: ReportOutput }) {
   const [copied, setCopied] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const fullText = useMemo(
     () =>
@@ -33,7 +40,8 @@ export function ResultCard({ data }: { data: ReportOutput }) {
     try {
       await navigator.clipboard.writeText(fullText);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => setCopied(false), 2000);
     } catch {
       // clipboard not available
     }

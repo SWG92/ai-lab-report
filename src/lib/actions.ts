@@ -7,9 +7,11 @@ const API_URL = "https://api.siliconflow.cn/v1/chat/completions";
 function buildPrompt(input: ReportInput): string {
   return `你是一位大学实验报告写作助手。请根据以下信息，生成一份完整的实验报告。
 
+===用户输入开始===
 课程名称：${input.courseName}
 实验名称：${input.experimentName}
 实验步骤：${input.experimentSteps}
+===用户输入结束===
 
 请严格按照以下四个部分输出，每部分使用"### "作为标题前缀：
 
